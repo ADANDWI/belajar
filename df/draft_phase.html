@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hero List</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+        }
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 1rem 0;
+            text-align: center;
+        }
+        .hero-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            padding: 2rem;
+        }
+        .hero-card {
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+        .hero-card:hover {
+            transform: translateY(-5px);
+        }
+        .hero-card img {
+            width: 100%;
+            height: auto;
+        }
+        .hero-card h3 {
+            margin: 0;
+            padding: 1rem;
+            font-size: 1.2rem;
+            color: #333;
+        }
+        .hero-card p {
+            margin: 0;
+            padding: 0 1rem 1rem;
+            font-size: 0.9rem;
+            color: #666;
+        }
+        #loader {
+            text-align: center;
+            padding: 2rem;
+            font-size: 1.2rem;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Hero List</h1>
+    </header>
+    <main>
+        <div id="loader">Loading heroes...</div>
+        <div class="hero-container" id="hero-container">
+            <!-- Hero cards will be populated here dynamically -->
+        </div>
+    </main>
+    <script>
+        // Replace with the correct API endpoint or use mock data
+        const API_URL = 'https://mlbbapi-sample.herokuapp.com/heroes'; 
+
+        // Mock data for testing if API is unavailable
+        const mockHeroes = [
+            {
+                name: "Alucard",
+                description: "A fighter with lifesteal abilities.",
+                image: "https://via.placeholder.com/200?text=Alucard"
+            },
+            {
+                name: "Miya",
+                description: "A marksman with great attack speed.",
+                image: "https://via.placeholder.com/200?text=Miya"
+            },
+            {
+                name: "Eudora",
+                description: "A mage with powerful burst damage.",
+                image: "https://via.placeholder.com/200?text=Eudora"
+            }
+        ];
+
+        async function fetchHeroes() {
+            const loader = document.getElementById('loader');
+            const heroContainer = document.getElementById('hero-container');
+
+            try {
+                // Fetch hero data from API
+                const response = await fetch(API_URL);
+                const rawData = await response.text();
+
+                // Check if response is JSON
+                let data;
+                try {
+                    data = JSON.parse(rawData);
+                } catch {
+                    throw new Error('Response is not valid JSON.');
+                }
+
+                // Hide loader
+                loader.style.display = 'none';
+
+                // Clear hero container
+                heroContainer.innerHTML = '';
+
+                // Check if data is empty
+                if (!data || data.length === 0) {
+                    heroContainer.innerHTML = '<p>No heroes found. Please check the API or data source.</p>';
+                    return;
+                }
+
+                // Populate heroes
+                data.forEach(hero => {
+                    const heroCard = document.createElement('div');
+                    heroCard.classList.add('hero-card');
+
+                    heroCard.innerHTML = `
+                        <img src="${hero.image || 'https://via.placeholder.com/200'}" 
+                             alt="${hero.name || 'Hero'} Image">
+                        <h3>${hero.name || 'Unknown Hero'}</h3>
+                        <p>${hero.description || 'No description available.'}</p>
+                    `;
+
+                    heroContainer.appendChild(heroCard);
+                });
+            } catch (error) {
+                // Hide loader and use mock data if API fails
+                console.error('Error fetching or parsing data:', error);
+                loader.style.display = 'none';
+
+                heroContainer.innerHTML = '<p>Failed to load heroes. Showing mock data instead.</p>';
+
+                // Load mock data
+                mockHeroes.forEach(hero => {
+                    const heroCard = document.createElement('div');
+                    heroCard.classList.add('hero-card');
+
+                    heroCard.innerHTML = `
+                        <img src="${hero.image}" alt="${hero.name} Image">
+                        <h3>${hero.name}</h3>
+                        <p>${hero.description}</p>
+                    `;
+
+                    heroContainer.appendChild(heroCard);
+                });
+            }
+        }
+
+        // Fetch hero data on page load
+        fetchHeroes();
+    </script>
+</body>
+</html>

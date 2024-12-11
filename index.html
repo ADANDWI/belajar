@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MLBB Styled Page</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(90deg, #1a1a40, #3a3a80);
+            color: white;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .container {
+            background: rgba(0, 0, 0, 0.8);
+            border-radius: 10px;
+            padding: 30px;
+            max-width: 400px;
+            text-align: center;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
+        }
+        .btn-custom {
+            background: linear-gradient(90deg, #f85f6a, #ff8b42);
+            color: white;
+            font-weight: bold;
+        }
+        .btn-custom:hover {
+            background: linear-gradient(90deg, #ff8b42, #f85f6a);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="mb-4">MLBB Styled App</h1>
+        <p class="mb-4">Pilih Menu di Bawah:</p>
+        <div class="d-grid gap-3">
+            <a href="https://www.mobilelegends.com/hero/" class="btn btn-custom">Draft Phase</a>
+            <a href="map/map.html" class="btn btn-custom">Map</a>
+            <a href="evaluasi.html" class="btn btn-custom">Evaluasi</a>
+        </div>
+    </div>
+    <!-- Bootstrap JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
